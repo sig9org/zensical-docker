@@ -11,17 +11,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.10/
+    versions/0.0.11/
 ```
 
-### 0.0.10
+### 0.0.11
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.10 \
-    versions/0.0.10/
+    --tag sig9/zensical:0.0.11 \
+    versions/0.0.11/
 ```
 
 ## References
