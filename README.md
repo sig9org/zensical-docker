@@ -31,6 +31,7 @@ docker buildx build \
     - [Zensical Documentation](https://zensical.org/docs/get-started/)
     - [Backlog](https://github.com/orgs/zensical/projects/2/views/1)
     - [GitHub](https://github.com/zensical/zensical)
+    - [PyPi](https://pypi.org/project/zensical/) ([History](https://pypi.org/project/zensical/#history))
 - Unofficial
     - DockerHub
         - [sig9/zensical](https://hub.docker.com/r/sig9/zensical)
