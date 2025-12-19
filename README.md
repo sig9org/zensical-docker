@@ -11,17 +11,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.12/
+    versions/0.0.13/
 ```
 
-### 0.0.11
+### 0.0.13
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.12 \
-    versions/0.0.12/
+    --tag sig9/zensical:0.0.13 \
+    versions/0.0.13/
 ```
 
 ## References
@@ -40,6 +40,7 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.13](https://github.com/zensical/zensical/releases/tag/v0.0.13) (2025/12/19)
 - [0.0.12](https://github.com/zensical/zensical/releases/tag/v0.0.12) (2025/12/18)
 - [0.0.11](https://github.com/zensical/zensical/releases/tag/v0.0.11) (2025/12/03)
 - [0.0.10](https://github.com/zensical/zensical/releases/tag/v0.0.10) (2025/11/26)
