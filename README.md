@@ -2,6 +2,26 @@
 
 This is [Zensical](https://zensical.org/) as a Docker container image.
 
+## How to use
+
+```sh
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.13 zensical build --clean
+```
+
+## Example CI/CD Configuration for GitLab Pages (.gitlab-ci.yml)
+
+```yaml
+stages:
+  - build
+
+build-job:
+  stage: build
+  script:
+    - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.13 zensical build --clean
+    - rm -rf /var/www/html/*
+    - cp -R site/* /var/www/html/
+```
+
 ## How to build
 
 ### Latest
