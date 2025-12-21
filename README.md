@@ -2,11 +2,28 @@
 
 This is [Zensical](https://zensical.org/) as a Docker container image.
 
-## How to use
+## How to Use
 
 ```sh
 docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.13 zensical build --clean
 ```
+
+## DockerHub Supported tags
+
+- [0.0.13](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.13/)
+- [0.0.12](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.12/)
+- [0.0.11](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.11/)
+- [0.0.10](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.10/)
+- [0.0.9](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.9/)
+- [0.0.8](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.8/)
+- [0.0.7](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.7/)
+- [0.0.6](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.6/)
+- [0.0.5](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.5/)
+- [0.0.4](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.4/)
+- [0.0.3](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.3/)
+- [0.0.2](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.2/)
+- [0.0.1](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.1/)
+- [0.0.0](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.0/)
 
 ## Example CI/CD Configuration for GitLab Pages (.gitlab-ci.yml)
 
@@ -22,7 +39,7 @@ build-job:
     - cp -R site/* /var/www/html/
 ```
 
-## How to build
+## How to Build a Docker Container Image
 
 ### Latest
 
