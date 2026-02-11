@@ -5,11 +5,13 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.21 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.23 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.23](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.23/)
+- [0.0.22](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.22/)
 - [0.0.21](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.21/)
 - [0.0.20](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.20/)
 - [0.0.19](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.19/)
@@ -42,7 +44,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.21 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.23 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -56,17 +58,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.21/
+    versions/0.0.23/
 ```
 
-### 0.0.21
+### 0.0.23
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.21 \
-    versions/0.0.21/
+    --tag sig9/zensical:0.0.23 \
+    versions/0.0.23/
 ```
 
 ## References
@@ -87,6 +89,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.23](https://github.com/zensical/zensical/releases/tag/v0.0.23) (2026/02/12)
+- [0.0.22](https://github.com/zensical/zensical/releases/tag/v0.0.22) (2026/02/12)
 - [0.0.21](https://github.com/zensical/zensical/releases/tag/v0.0.21) (2026/02/05)
 - [0.0.20](https://github.com/zensical/zensical/releases/tag/v0.0.20) (2026/01/29)
 - [0.0.19](https://github.com/zensical/zensical/releases/tag/v0.0.19) (2026/01/25)
