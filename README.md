@@ -90,19 +90,35 @@ docker buildx build \
 ## Releases
 
 - [0.0.23](https://github.com/zensical/zensical/releases/tag/v0.0.23) (2026/02/12)
+    - This version fixes a regression introduced in 0.0.22, where builds would error with mkdocstrings being not found, although the plugin wasn't configured.
 - [0.0.22](https://github.com/zensical/zensical/releases/tag/v0.0.22) (2026/02/12)
+    - This version adds support for the [autorefs](https://github.com/mkdocstrings/autorefs) plugin, and further improves performance for large mkdocstrings projects. The [user interface](https://github.com/zensical/ui) is updated to [v0.0.7](https://github.com/zensical/ui/releases/tag/v0.0.7), which fixes some isses with the mobile browsering experience.
 - [0.0.21](https://github.com/zensical/zensical/releases/tag/v0.0.21) (2026/02/05)
+    - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.6](https://github.com/zensical/ui/releases/tag/v0.0.6), which fixes excessive memory usage for pages with hundreds of links that are marked with data-preview (for instant previews), among several other improvements and bug fixes.
+        - Back-to-top button was moved to the bottom for modern theme
+        - Several fixes for instant previews, improving memory usage and usability
 - [0.0.20](https://github.com/zensical/zensical/releases/tag/v0.0.20) (2026/01/29)
+    - This version fixes excessive memory usage when building large mkdocstrings-powered documentation sites. Additionally, it fixes an issue where the build sometimes terminates prematurely. We're working on further improvements to memory consumption and stability in upcoming releases, as we're currently refactoring a significant part of the runtime.
 - [0.0.19](https://github.com/zensical/zensical/releases/tag/v0.0.19) (2026/01/25)
+    - This version adds support for the generation of objects.inv for your [mkdocstrings](https://mkdocstrings.github.io/)-powered documentation site, allowing external tools to discover and link to your API documentation. No changes to your configuration are necessary.
 - [0.0.18](https://github.com/zensical/zensical/releases/tag/v0.0.18) (2026/01/23)
+    - This version fixes a reload loop when mkdocstrings paths setting is set to ., which was introduced in 0.0.17 as a regression, and a race condition related to caching is resolved. Additionally, Zensical was too retrictive, only allowing specific meta keys for the navigation templates. This has been relaxed to allow any meta keys to be used.
 - [0.0.17](https://github.com/zensical/zensical/releases/tag/v0.0.17) (2026/01/19)
+    - This version brings support for automatic and manual API cross-references. Symbol names on pages that include auto-generated API documentation now automatically link to the relevant section. Additionally, manual cross-references can be created both in Markdown pages and Python docstrings with the following syntax:
 - [0.0.16](https://github.com/zensical/zensical/releases/tag/v0.0.16) (2026/01/16)
+    - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.4](https://github.com/zensical/ui/releases/tag/v0.0.4), which fixes searching for & characters, as well as usage of Lucide icons in the footer, and adds support for custom admonition icons via theme configuration.
 - [0.0.15](https://github.com/zensical/zensical/releases/tag/v0.0.15) (2025/12/24)
+    - This release updates the [user interface](https://github.com/zensical/ui) to [v0.0.3](https://github.com/zensical/ui/releases/tag/v0.0.3), which includes support for fuzzy search, and improves tooltip behavior on touch devices.
 - [0.0.14](https://github.com/zensical/zensical/releases/tag/v0.0.14) (2025/12/22)
+    - This release includes the [official Docker image](https://hub.docker.com/r/zensical/zensical) for Zensical, and fixes problems with hanging builds on Linux and Windows, as well as the build cache not being invalidated when templates were changed in overrides.
 - [0.0.13](https://github.com/zensical/zensical/releases/tag/v0.0.13) (2025/12/19)
+    - This release updates the [user interface](https://github.com/zensical/ui) to [v0.0.2](https://github.com/zensical/ui/releases/tag/v0.0.2), which includes various improvements and bug fixes, and ships 132 new icons. It might be a breaking change, as Simple icons removed 44 icons in their latest release, so make sure you're not using them. See the [v0.0.2](https://github.com/zensical/ui/releases/tag/v0.0.2) release notes for details.
 - [0.0.12](https://github.com/zensical/zensical/releases/tag/v0.0.12) (2025/12/18)
+    - This release fixes several issue with mkdocs.yml parsing, problems with zensical new, and other bugs. It's also the first release that goes through our new release workflow powered by mono, our new [mono](https://github.com/zensical/mono) repository automation tool.
 - [0.0.11](https://github.com/zensical/zensical/releases/tag/v0.0.11) (2025/12/03)
+    - This release adds support for [mkdocstrings](https://zensical.org/docs/setup/extensions/mkdocstrings/), enabling generation of API reference documentation for Python projects. Note that cross-references and backlinks are not yet supported – we're working on it.
 - [0.0.10](https://github.com/zensical/zensical/releases/tag/v0.0.10) (2025/11/26)
+    - This release includes two massive performance improvements for Disco.
 - [0.0.9](https://github.com/zensical/zensical/releases/tag/v0.0.9) (2025/11/20)
 - [0.0.8](https://github.com/zensical/zensical/releases/tag/v0.0.8) (2025/11/15)
 - [0.0.7](https://github.com/zensical/zensical/releases/tag/v0.0.7) (2025/11/13)
