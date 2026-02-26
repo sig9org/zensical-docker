@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.23 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.24 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.24](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.24/)
 - [0.0.23](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.23/)
 - [0.0.22](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.22/)
 - [0.0.21](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.21/)
@@ -44,7 +45,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.23 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.24 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -58,17 +59,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.23/
+    versions/0.0.24/
 ```
 
-### 0.0.23
+### 0.0.24
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.23 \
-    versions/0.0.23/
+    --tag sig9/zensical:0.0.24 \
+    versions/0.0.24/
 ```
 
 ## References
@@ -89,6 +90,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.24](https://github.com/zensical/zensical/releases/tag/v0.0.24) (2026/02/26)
+    - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.8](https://github.com/zensical/ui/releases/tag/v0.0.8), which fixes issues with instant previews for Chinese and other non-ASCII languages, and layout shifts when switching from short to long pages in the modern theme. Additionally, same-page links for when directory URLs are disabled where not resolved correctly, which is fixed as well.
 - [0.0.23](https://github.com/zensical/zensical/releases/tag/v0.0.23) (2026/02/12)
     - This version fixes a regression introduced in 0.0.22, where builds would error with mkdocstrings being not found, although the plugin wasn't configured.
 - [0.0.22](https://github.com/zensical/zensical/releases/tag/v0.0.22) (2026/02/12)
