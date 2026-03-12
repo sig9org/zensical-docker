@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.25 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.26 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.26](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.26/)
 - [0.0.25](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.25/)
 - [0.0.24](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.24/)
 - [0.0.23](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.23/)
@@ -46,7 +47,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.25 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.26 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -60,7 +61,7 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.25/
+    versions/0.0.26/
 ```
 
 ### 0.0.25
@@ -69,8 +70,8 @@ docker buildx build \
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.25 \
-    versions/0.0.25/
+    --tag sig9/zensical:0.0.26 \
+    versions/0.0.26/
 ```
 
 ## References
@@ -91,6 +92,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.26](https://github.com/zensical/zensical/releases/tag/v0.0.26) (2026/03/11)
+    - This version fixes a regression introduced in 0.0.25 where the wheels built for manylinux x86 would be based on Python 3.8 instead of Python 3.10, making Zensical unusable on those architectures. This is related to a [recent bug](https://github.com/PyO3/maturin/issues/3059) in our upstream dependency [maturin](https://github.com/PyO3/maturin), which was introduced in version 1.12.5. Additionally, it fixes a deprecation warning on Python 3.14 when using the emoji extension.
 - [0.0.25](https://github.com/zensical/zensical/releases/tag/v0.0.25) (2026/03/11)
     - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.9](https://github.com/zensical/ui/releases/tag/v0.0.9), which improves on accessibility and fixes some minor rendering issues. Additionally, it fixes some bugs related to configuration parsing and plugin handling in zensical serve, ensuring a smoother development experience.
 - [0.0.24](https://github.com/zensical/zensical/releases/tag/v0.0.24) (2026/02/26)
