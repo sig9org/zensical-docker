@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.26 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.27 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.27](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.27/)
 - [0.0.26](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.26/)
 - [0.0.25](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.25/)
 - [0.0.24](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.24/)
@@ -47,7 +48,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.26 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.27 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -61,17 +62,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.26/
+    versions/0.0.27/
 ```
 
-### 0.0.25
+### 0.0.27
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.26 \
-    versions/0.0.26/
+    --tag sig9/zensical:0.0.27 \
+    versions/0.0.27/
 ```
 
 ## References
@@ -92,6 +93,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.27](https://github.com/zensical/zensical/releases/tag/v0.0.27) (2026/03/14)
+    - This version fixes a reload loop for when auto-appended snippets are located inside of the docs directory, and auto-reload for pages with Chinese path segments.
 - [0.0.26](https://github.com/zensical/zensical/releases/tag/v0.0.26) (2026/03/11)
     - This version fixes a regression introduced in 0.0.25 where the wheels built for manylinux x86 would be based on Python 3.8 instead of Python 3.10, making Zensical unusable on those architectures. This is related to a [recent bug](https://github.com/PyO3/maturin/issues/3059) in our upstream dependency [maturin](https://github.com/PyO3/maturin), which was introduced in version 1.12.5. Additionally, it fixes a deprecation warning on Python 3.14 when using the emoji extension.
 - [0.0.25](https://github.com/zensical/zensical/releases/tag/v0.0.25) (2026/03/11)
