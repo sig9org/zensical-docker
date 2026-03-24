@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.28 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.29 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.29](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.29/)
 - [0.0.28](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.28/)
 - [0.0.27](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.27/)
 - [0.0.26](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.26/)
@@ -49,7 +50,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.28 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.29 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -63,17 +64,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.28/
+    versions/0.0.29/
 ```
 
-### 0.0.27
+### 0.0.29
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.28 \
-    versions/0.0.28/
+    --tag sig9/zensical:0.0.29 \
+    versions/0.0.29/
 ```
 
 ## References
@@ -94,6 +95,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.29](https://github.com/zensical/zensical/releases/tag/v0.0.29) (2026/03/24)
+    - This version fixes an issue with absolute paths in links, as well as changed files not being picked up by Zensical on Windows 11.
 - [0.0.28](https://github.com/zensical/zensical/releases/tag/v0.0.28) (2026/03/19)
     - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.10](https://github.com/zensical/ui/releases/tag/v0.0.10), which fixes a couple of bugs related to search and code annotation rendering. Additionally, it adds support for version selectors in the modern theme, paving the way for adding support for [mike](https://github.com/jimporter/mike) to manage multiple versions of documentation on GitHub Pages.In addition, this release adds new configuration options for the file watcher to improve compatibility in certain environments.
 - [0.0.27](https://github.com/zensical/zensical/releases/tag/v0.0.27) (2026/03/14)
