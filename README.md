@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.29 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.30 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.30](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.30/)
 - [0.0.29](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.29/)
 - [0.0.28](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.28/)
 - [0.0.27](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.27/)
@@ -50,7 +51,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.29 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.30 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -64,17 +65,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.29/
+    versions/0.0.30/
 ```
 
-### 0.0.29
+### 0.0.30
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.29 \
-    versions/0.0.29/
+    --tag sig9/zensical:0.0.30 \
+    versions/0.0.30/
 ```
 
 ## References
@@ -95,6 +96,10 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.30](https://github.com/zensical/zensical/releases/tag/v0.0.30) (2026/03/29)
+    - This version adds support for [mike](https://github.com/jimporter/mike), a tool for managing multiple versions of MkDocs projects on GitHub Pages. We created [a tailored fork of mike](https://github.com/squidfunk/mike) for Zensical – all mike commands should work as expected. Please refer to [our documentation](https://zensical.org/docs/setup/versioning/) for setup instructions, and [mike's documentation](https://github.com/jimporter/mike#readme) for advanced usage patterns and options.
+    - Note that this is a temporary solution. Zensical will ship [native support for versioning](https://zensical.org/about/roadmap/#versioning) in the near future, which will remove the GitHub Pages constraint and offer more flexibility in how versions are deployed and served.
+    - The [user interface](https://github.com/zensical/ui) is updated to [v0.0.11](https://github.com/zensical/ui/releases/tag/v0.0.11), which adds a floating table of contents menu for mobile to the modern theme. The toggle sits at the bottom of the screen for easy thumb access, and the sidebar scrolls to accommodate arbitrarily long tables of contents. This release also includes several improvements: snappier sidebar animations, better tooltip readability, and improved inline code block sizing.
 - [0.0.29](https://github.com/zensical/zensical/releases/tag/v0.0.29) (2026/03/24)
     - This version fixes an issue with absolute paths in links, as well as changed files not being picked up by Zensical on Windows 11.
 - [0.0.28](https://github.com/zensical/zensical/releases/tag/v0.0.28) (2026/03/19)
