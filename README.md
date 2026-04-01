@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.30 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.31 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.31](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.31/)
 - [0.0.30](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.30/)
 - [0.0.29](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.29/)
 - [0.0.28](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.28/)
@@ -51,7 +52,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.30 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.31 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -65,17 +66,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.30/
+    versions/0.0.31/
 ```
 
-### 0.0.30
+### 0.0.31
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.30 \
-    versions/0.0.30/
+    --tag sig9/zensical:0.0.31 \
+    versions/0.0.31/
 ```
 
 ## References
@@ -96,6 +97,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.31](https://github.com/zensical/zensical/releases/tag/v0.0.31) (2026/04/01)
+    - This version updates the [user interface](https://github.com/zensical/ui) to [v0.0.12](https://github.com/zensical/ui/releases/tag/v0.0.12), which includes the [removal of 19 brand icons](https://lucide.dev/guide/version-1) due to the update of Lucide to v1, and the addition of 166 new icons, most of them in SimpleIcons and FontAwesome. Additionally, there are bug fixes related to the latest changes of the table of contents in the modern theme and instant navigation on anchor links.
 - [0.0.30](https://github.com/zensical/zensical/releases/tag/v0.0.30) (2026/03/29)
     - This version adds support for [mike](https://github.com/jimporter/mike), a tool for managing multiple versions of MkDocs projects on GitHub Pages. We created [a tailored fork of mike](https://github.com/squidfunk/mike) for Zensical – all mike commands should work as expected. Please refer to [our documentation](https://zensical.org/docs/setup/versioning/) for setup instructions, and [mike's documentation](https://github.com/jimporter/mike#readme) for advanced usage patterns and options.
     - Note that this is a temporary solution. Zensical will ship [native support for versioning](https://zensical.org/about/roadmap/#versioning) in the near future, which will remove the GitHub Pages constraint and offer more flexibility in how versions are deployed and served.
