@@ -5,11 +5,13 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.34 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.36 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.36](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.36/)
+- [0.0.35](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.35/)
 - [0.0.34](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.34/)
 - [0.0.33](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.33/)
 - [0.0.32](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.32/)
@@ -55,7 +57,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.34 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.36 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -69,7 +71,7 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.34/
+    versions/0.0.36/
 ```
 
 ### 0.0.34
@@ -78,8 +80,8 @@ docker buildx build \
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.34 \
-    versions/0.0.34/
+    --tag sig9/zensical:0.0.36 \
+    versions/0.0.36/
 ```
 
 ## References
@@ -100,6 +102,11 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.36](https://github.com/zensical/zensical/releases/tag/v0.0.36) (2026/04/24)
+    - This version adds the missing update of the user interface that should've been included with [v0.0.35]().
+- [0.0.35](https://github.com/zensical/zensical/releases/tag/v0.0.35) (2026/04/24)
+    - Please update to v0.0.36 – this version is missing some changes to the user interface for the new features.
+    - This version adds native support for [GLightbox](https://biati-digital.github.io/glightbox/), a JavaScript lightbox library to add zoom and gallery features to images. Images can be automatically annotated with the new glightbox Markdown extension.
 - [0.0.34](https://github.com/zensical/zensical/releases/tag/v0.0.34) (2026/04/21)
     - This version moves Zensical to the latest version of [ZRX](https://github.com/zensical/zrx), the foundation for Zensical and its ecosystem. It includes the module system, as well as a ground up rewrite of the scheduler and streaming API. We did extensive testing with several hundred projects we obtained from GitHub, so we don't expect any issues. However, if you encounter any problems, please let us know.
     - Moreover, this version ships support for usage of TOML v1.1.0 in zensical.toml, which allows new lines in inline tables. Thus, configuration files can now be made more readable, especially when they contain long lists of items.
