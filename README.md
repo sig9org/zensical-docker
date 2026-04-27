@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.36 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.37 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.37](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.37/)
 - [0.0.36](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.36/)
 - [0.0.35](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.35/)
 - [0.0.34](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.34/)
@@ -57,7 +58,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.36 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.37 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -71,17 +72,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.36/
+    versions/0.0.37/
 ```
 
-### 0.0.36
+### 0.0.37
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.36 \
-    versions/0.0.36/
+    --tag sig9/zensical:0.0.37 \
+    versions/0.0.37/
 ```
 
 ## References
@@ -102,6 +103,9 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.37](https://github.com/zensical/zensical/releases/tag/v0.0.37) (2026/04/27)
+    -This version adds support for installable themes. You can now bundle your theme overrides and package them into a custom theme which can be installed via pip.
+    - As of now, we closely mirror the process used by MkDocs, where themes just need to register themselves in the mkdocs.themes entrypoint, to allow users that already have derivations of Material for MkDocs to run them on Zensical. In the coming months, with the advent of the [component system](https://zensical.org/about/roadmap/#component-system), we'll make this process much more flexible and foster reuse at the component level. For now, this is a first step to allow sharing of theme overrides and default configurations inside organizations with dozens or even thousands of projects.
 - [0.0.36](https://github.com/zensical/zensical/releases/tag/v0.0.36) (2026/04/24)
     - This version adds the missing update of the user interface that should've been included with [v0.0.35]().
 - [0.0.35](https://github.com/zensical/zensical/releases/tag/v0.0.35) (2026/04/24)
