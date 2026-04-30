@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.37 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.38 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.38](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.38/)
 - [0.0.37](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.37/)
 - [0.0.36](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.36/)
 - [0.0.35](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.35/)
@@ -58,7 +59,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.37 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.38 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -72,17 +73,17 @@ docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
     --tag sig9/zensical:latest \
-    versions/0.0.37/
+    versions/0.0.38/
 ```
 
-### 0.0.37
+### 0.0.38
 
 ```sh
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --output=type=registry \
-    --tag sig9/zensical:0.0.37 \
-    versions/0.0.37/
+    --tag sig9/zensical:0.0.38 \
+    versions/0.0.38/
 ```
 
 ## References
@@ -103,6 +104,8 @@ docker buildx build \
 
 ## Releases
 
+- [0.0.38](https://github.com/zensical/zensical/releases/tag/v0.0.38) (2026/04/30)
+    - This version adds [link and footnote validation](https://zensical.org/docs/setup/validation/) and [strict mode](https://zensical.org/docs/setup/validation/#strict-mode) – two of the most frequently requested features. Zensical now checks all internal references at build time and reports issues with precise source locations, so broken links don't make it into your published documentation. Unlike MkDocs, which only validates final rendered links, Zensical also checks for unresolved references, as well as unused and shadowed definitions – covering the full lifecycle of a reference from definition to use.
 - [0.0.37](https://github.com/zensical/zensical/releases/tag/v0.0.37) (2026/04/27)
     -This version adds support for installable themes. You can now bundle your theme overrides and package them into a custom theme which can be installed via pip.
     - As of now, we closely mirror the process used by MkDocs, where themes just need to register themselves in the mkdocs.themes entrypoint, to allow users that already have derivations of Material for MkDocs to run them on Zensical. In the coming months, with the advent of the [component system](https://zensical.org/about/roadmap/#component-system), we'll make this process much more flexible and foster reuse at the component level. For now, this is a first step to allow sharing of theme overrides and default configurations inside organizations with dozens or even thousands of projects.
