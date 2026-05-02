@@ -16,3 +16,9 @@ tasks:
     cmds:
       - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/zensical:latest versions/{{.TARGET}}/
       - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/zensical:{{.TARGET}} versions/{{.TARGET}}/
+
+  list-tags:
+    aliases: [l]
+    desc: List the tags registered on Docker Hub
+    cmds:
+      - skopeo list-tags docker://docker.io/sig9/zensical
