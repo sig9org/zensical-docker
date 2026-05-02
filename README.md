@@ -65,28 +65,6 @@ build-job:
         - cp -R site/* /var/www/html/
 ```
 
-## How to Build a Docker Container Image
-
-### Latest
-
-```sh
-docker buildx build \
-    --platform linux/amd64,linux/arm64 \
-    --output=type=registry \
-    --tag sig9/zensical:latest \
-    versions/0.0.39/
-```
-
-### 0.0.39
-
-```sh
-docker buildx build \
-    --platform linux/amd64,linux/arm64 \
-    --output=type=registry \
-    --tag sig9/zensical:0.0.39 \
-    versions/0.0.39/
-```
-
 ## References
 
 - Official

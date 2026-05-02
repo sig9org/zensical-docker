@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+vars:
+  TARGET: 0.0.39
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  build:
+    aliases: [b]
+    desc: Build and export to the registry
+    cmds:
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/zensical:latest versions/{{.TARGET}}/
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/zensical:{{.TARGET}} versions/{{.TARGET}}/
