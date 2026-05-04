@@ -21,4 +21,4 @@ tasks:
     aliases: [l]
     desc: List the tags registered on Docker Hub
     cmds:
-      - skopeo list-tags docker://docker.io/sig9/zensical
+      - skopeo list-tags docker://docker.io/sig9/zensical | jq -r '.Tags[]' | sort -V
