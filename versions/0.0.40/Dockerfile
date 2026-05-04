@@ -1,0 +1,55 @@
+# Build Stage
+FROM python:3.14.4-slim AS builder
+
+# Environment variables
+ENV PACKAGES=/usr/local/lib/python3.14/site-packages
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Set build directory
+WORKDIR /build
+
+# Perform build and cleanup artifacts and caches
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+        click==8.3.3 \
+        deepmerge==2.0 \
+        jinja2==3.1.6 \
+        markdown==3.10.2 \
+        markupsafe==3.0.3 \
+        pygments==2.20.0 \
+        pymdown-extensions==10.21.2 \
+        pyyaml==6.0.3 \
+        tomli==2.4.1 \
+        zensical==0.0.40
+
+RUN find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true && \
+    find . -type f -name "*.pyc" -delete && \
+    rm -rf venv/ && \
+    rm -rf .git/ && \
+    rm -rf .pytest_cache/ && \
+    rm -rf *.egg-info/ && \
+    rm -rf .coverage && \
+    rm -rf htmlcov/
+
+# Runtime Stage
+FROM python:3.14.4-slim AS runtime
+
+# Copy all from builder
+COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+COPY --from=builder /usr/bin/tini /usr/bin/tini
+
+# Set working directory
+WORKDIR /docs
+
+# Expose MkDocs development server port
+EXPOSE 8000
+
+# Shell
+CMD ["/bin/sh"]

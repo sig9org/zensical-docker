@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.39 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.40 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.40](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.40/)
 - [0.0.39](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.39/)
 - [0.0.38](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.38/)
 - [0.0.37](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.37/)
@@ -60,7 +61,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.39 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.40 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -83,6 +84,9 @@ build-job:
 
 ## Releases
 
+- [0.0.40](https://github.com/zensical/zensical/releases/tag/v0.0.40) (2026/05/05)
+    - This version adds support for [macros](https://zensical.org/docs/setup/extensions/macros/), covering the functionality of the mkdocs-macros-plugin. Macros allow you to define custom variables and functions that can be used in your Markdown files, making it easier to manage and reuse content across your documentation.
+    - We've implemented macros support as a Python Markdown extension, since it's essentially a Markdown preprocessor that doesn't need to be aware of the rest of Zensical's rendering process, except for the current page and configuration. The benefit is that it can now also be used in Python docstrings to build API documentation with [mkdocstrings](https://mkdocstrings.github.io/).
 - [0.0.39](https://github.com/zensical/zensical/releases/tag/v0.0.39) (2026/05/02)
     - This version fixes several bugs related to link validation and lightbox configuration.
 - [0.0.38](https://github.com/zensical/zensical/releases/tag/v0.0.38) (2026/04/30)
