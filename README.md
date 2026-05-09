@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.40 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.41 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.41](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.41/)
 - [0.0.40](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.40/)
 - [0.0.39](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.39/)
 - [0.0.38](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.38/)
@@ -61,7 +62,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.40 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.41 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -84,6 +85,9 @@ build-job:
 
 ## Releases
 
+- [0.0.41](https://github.com/zensical/zensical/releases/tag/v0.0.41) (2026/05/09)
+    - This version adds support for [integrating tabular data](https://zensical.org/docs/setup/extensions/macros/#reading-tabular-data) as Markdown tables, covering the functionality of the [mkdocs-table-reader-plugin](https://pypi.org/project/mkdocs-table-reader-plugin/), as well as the [watch](https://zensical.org/docs/setup/basics/#watch) option to automatically rebuild on changes in unmonitored files. Table reading is implemented as part of [macros](https://zensical.org/docs/setup/extensions/macros/), which we shipped in [0.0.40](https://github.com/zensical/zensical/releases/tag/v0.0.40).
+    - Additionally, the stability of link [validation](https://zensical.org/docs/setup/validation/) has been drastically improved, reducing the rate of false positives. We're working on support for validating links using [autorefs](https://mkdocstrings.github.io/autorefs/), which we'll provide in one of the next versions.
 - [0.0.40](https://github.com/zensical/zensical/releases/tag/v0.0.40) (2026/05/05)
     - This version adds support for [macros](https://zensical.org/docs/setup/extensions/macros/), covering the functionality of the mkdocs-macros-plugin. Macros allow you to define custom variables and functions that can be used in your Markdown files, making it easier to manage and reuse content across your documentation.
     - We've implemented macros support as a Python Markdown extension, since it's essentially a Markdown preprocessor that doesn't need to be aware of the rest of Zensical's rendering process, except for the current page and configuration. The benefit is that it can now also be used in Python docstrings to build API documentation with [mkdocstrings](https://mkdocstrings.github.io/).

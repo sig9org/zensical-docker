@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  TARGET: 0.0.40
+  TARGET: 0.0.41
 
 tasks:
   default:
