@@ -5,11 +5,13 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.41 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.43 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.43](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.43/)
+- [0.0.42](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.42/)
 - [0.0.41](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.41/)
 - [0.0.40](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.40/)
 - [0.0.39](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.39/)
@@ -62,7 +64,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.41 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.43 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -85,6 +87,10 @@ build-job:
 
 ## Releases
 
+- [0.0.43](https://github.com/zensical/zensical/releases/tag/v0.0.42) (2026/05/19)
+    - This version fixes further edge cases in link validation, and adds support for UTF-8 encoding with byte-order-marks.
+- [0.0.42](https://github.com/zensical/zensical/releases/tag/v0.0.42) (2026/05/15)
+    - This version includes a number of bug fixes and refactorings to improve the stability and accuracy of link validation, and fixes a reload loop when the custom_dir, which is auto-watched, is explicitly added to watch. Moreover, GLightbox is now only downloaded when needed, which fixes an issue when using Zensical in air-gapped environments.
 - [0.0.41](https://github.com/zensical/zensical/releases/tag/v0.0.41) (2026/05/09)
     - This version adds support for [integrating tabular data](https://zensical.org/docs/setup/extensions/macros/#reading-tabular-data) as Markdown tables, covering the functionality of the [mkdocs-table-reader-plugin](https://pypi.org/project/mkdocs-table-reader-plugin/), as well as the [watch](https://zensical.org/docs/setup/basics/#watch) option to automatically rebuild on changes in unmonitored files. Table reading is implemented as part of [macros](https://zensical.org/docs/setup/extensions/macros/), which we shipped in [0.0.40](https://github.com/zensical/zensical/releases/tag/v0.0.40).
     - Additionally, the stability of link [validation](https://zensical.org/docs/setup/validation/) has been drastically improved, reducing the rate of false positives. We're working on support for validating links using [autorefs](https://mkdocstrings.github.io/autorefs/), which we'll provide in one of the next versions.
