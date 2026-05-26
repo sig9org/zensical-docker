@@ -3,7 +3,8 @@
 version: "3"
 
 vars:
-  TARGET: 0.0.43
+  NAME: "zensical"
+  VERSION: "0.0.43"
 
 tasks:
   default:
@@ -14,9 +15,9 @@ tasks:
     aliases: [b]
     desc: Build and export to the registry
     cmds:
-      - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/zensical:latest --tag sig9/zensical:{{.TARGET}} versions/{{.TARGET}}/
+      - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest --tag sig9/{{.NAME}}:{{.VERSION}} versions/{{.VERSION}}/
 
   tags:
     desc: List the tags registered on Docker Hub
     cmds:
-      - skopeo list-tags docker://docker.io/sig9/zensical | jq -r '.Tags[]' | sort -V
+      - skopeo list-tags docker://docker.io/sig9/{{.NAME}} | jq -r '.Tags[]' | sort -V
