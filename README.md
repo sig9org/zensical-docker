@@ -5,11 +5,13 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.43 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.45 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.45](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.45/)
+- [0.0.44](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.44/)
 - [0.0.43](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.43/)
 - [0.0.42](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.42/)
 - [0.0.41](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.41/)
@@ -64,7 +66,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.43 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.45 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -87,6 +89,10 @@ build-job:
 
 ## Releases
 
+- [0.0.45](https://github.com/zensical/zensical/releases/tag/v0.0.45) (2026/06/09)
+    - This version reverts a behavior change in link validation that was introduced in 0.0.44 which is causing false positives.
+- [0.0.44](https://github.com/zensical/zensical/releases/tag/v0.0.44) (2026/06/05)
+    - This version fixes several bugs related to link validation and macros, and ensures that dotfiles are not removed from the site directory during generation.
 - [0.0.43](https://github.com/zensical/zensical/releases/tag/v0.0.42) (2026/05/19)
     - This version fixes further edge cases in link validation, and adds support for UTF-8 encoding with byte-order-marks.
 - [0.0.42](https://github.com/zensical/zensical/releases/tag/v0.0.42) (2026/05/15)
