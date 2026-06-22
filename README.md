@@ -5,11 +5,12 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.45 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.46 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.46](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.46/)
 - [0.0.45](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.45/)
 - [0.0.44](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.44/)
 - [0.0.43](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.43/)
@@ -66,7 +67,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.45 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.46 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
@@ -89,6 +90,16 @@ build-job:
 
 ## Releases
 
+- [0.0.46](https://github.com/zensical/zensical/releases/tag/v0.0.46) (2026/06/22)
+    - Summary
+        - This version improves search result quality and includes several bug fixes and refactorings.
+    - Search excerpts
+        - Search results now include excerpts, making it easier to understand why a result matches. Search remains fully client-side and as fast as before, even for projects with thousands of pages. We still consider search an active area of iteration and expect to further improve it and expose more configuration options over time.
+    - User interface
+        - The [user interface](https://github.com/zensical/ui) is updated to [v0.0.19](https://github.com/zensical/ui/releases/tag/v0.0.19), which includes several navigation and interaction fixes. Search highlighting now ignores single-character tokens, which avoids noisy matches like highlighting every e for queries such as e-mail. Instant previews now include a hover bridge so moving the cursor from a link to the tooltip no longer drops the popup across the visual gap.
+        - Dependencies were also updated, including TypeScript 6 and SVGO 4 compatibility adjustments. 83 new icons were added, 2 icons were removed, and 19 icons were modified. The Lucide icon set was updated to version v1.21.0.
+    - Validation defaults
+        - The validation options unresolved_references, unresolved_footnotes, unused_definitions, unused_footnotes, shadowed_definitions, and shadowed_footnotes are now disabled by default. These checks remain available when explicitly enabled, but they have proven too unstable in edge cases with the current reference parser. They will eventually be superseded by the higher-fidelity parser that is already used by [Zensical Studio](https://zensical.org/studio/) and is planned for Open Source release and later integration into Zensical.
 - [0.0.45](https://github.com/zensical/zensical/releases/tag/v0.0.45) (2026/06/09)
     - This version reverts a behavior change in link validation that was introduced in 0.0.44 which is causing false positives.
 - [0.0.44](https://github.com/zensical/zensical/releases/tag/v0.0.44) (2026/06/05)
