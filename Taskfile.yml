@@ -11,6 +11,23 @@ tasks:
     cmds:
       - task --list
 
+  clean:
+    aliases: [c]
+    desc: Clean up
+    cmds:
+      - find . -type d -name ".terraform" -prune -exec rm -rf {} +
+      - find . -name ".DS_Store" -delete
+      - find . -name ".terraform.lock.hcl" -delete
+      - find . -name "hash" -delete
+      - find . -name "terraform.tfstate" -delete
+      - find . -name "terraform.tfstate.backup" -delete
+
+  upgrade:
+    aliases: [u]
+    desc: Upgrading Python Dependencies
+    cmds:
+      - uv sync --upgrade
+
   build:
     aliases: [b]
     desc: Build and export to the registry
