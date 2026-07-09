@@ -4,10 +4,11 @@ version: "3"
 
 vars:
   NAME: "zensical"
-  VERSION: "0.0.47"
+  VERSION: "0.0.48"
 
 tasks:
   default:
+    silent: true
     cmds:
       - task --list
 
@@ -21,12 +22,6 @@ tasks:
       - find . -name "hash" -delete
       - find . -name "terraform.tfstate" -delete
       - find . -name "terraform.tfstate.backup" -delete
-
-  upgrade:
-    aliases: [u]
-    desc: Upgrading Python Dependencies
-    cmds:
-      - uv sync --upgrade
 
   build:
     aliases: [b]
