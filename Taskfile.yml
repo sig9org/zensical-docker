@@ -35,7 +35,7 @@ tasks:
           task: _time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: docker_buildx:version
+      - task: _docker_buildx:version
 
   docker-tags:
     aliases: [dt]
