@@ -1,35 +1,48 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: "3"
+version: '3'
 
-vars:
-  NAME: "zensical"
-  VERSION: "0.0.52"
+dotenv: ['project.ini']
+
+silent: true
+
+includes:
+  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
+  _docker_buildx: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker_buildx.yml
+  _skopeo: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_skopeo.yml
+  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
 
 tasks:
   default:
-    silent: true
     cmds:
       - task --list
 
-  clean:
+  cleanup:
     aliases: [c]
-    desc: Clean up
+    desc: "Cleanup unnecessary files"
     cmds:
-      - find . -type d -name ".terraform" -prune -exec rm -rf {} +
-      - find . -name ".DS_Store" -delete
-      - find . -name ".terraform.lock.hcl" -delete
-      - find . -name "hash" -delete
-      - find . -name "terraform.tfstate" -delete
-      - find . -name "terraform.tfstate.backup" -delete
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _cleanup:start
 
-  build:
-    aliases: [b]
-    desc: Build and export to the registry
+  docker-build-version:
+    aliases: [db]
+    desc: "Build and export to the registry"
     cmds:
-      - time docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag sig9/{{.NAME}}:latest --tag sig9/{{.NAME}}:{{.VERSION}} versions/{{.VERSION}}/
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: docker_buildx:version
 
-  tags:
-    desc: List the tags registered on Docker Hub
+  docker-tags:
+    aliases: [dt]
+    desc: "List the tags registered on Docker Hub"
     cmds:
-      - skopeo list-tags docker://docker.io/sig9/{{.NAME}} | jq -r '.Tags[]' | sort -V
+      - defer:
+          task: _time:end
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - task: _skopeo:tags
