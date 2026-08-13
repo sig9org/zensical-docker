@@ -1,16 +1,24 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: '3'
+version: "3"
 
-dotenv: ['project.ini']
+dotenv: ['.env']
 
 silent: true
 
-includes:
-  _cleanup: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_cleanup.yml
-  _docker_buildx: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_docker_buildx.yml
-  _skopeo: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_skopeo.yml
-  _time: https://raw.githubusercontent.com/sig9org/tasks/main/tasks/_time.yml
+vars:
+  CLEANUP_DIRS:
+    - .idea
+    - .terraform
+    - .vscode
+  CLEANUP_FILES:
+    - .DS_Store
+    - .terraform.lock.hcl
+    - terraform.tfstate
+    - terraform.tfstate.backup
+    - Desktop.ini
+    - Thumbs.db
+  START_TIME: '{{now.UnixMilli}}'
 
 tasks:
   default:
@@ -22,27 +30,102 @@ tasks:
     desc: "Cleanup unnecessary files"
     cmds:
       - defer:
-          task: _time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _cleanup:start
+      - task: cleanup:shell
+      - task: cleanup:win
+      - task: cleanup:refresh
+
+  cleanup:shell:
+    internal: true
+    dir: "{{.USER_WORKING_DIR}}"
+    platforms: [darwin, linux]
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: find . -type d -name "{{.ITEM}}" -print -prune -exec rm -rf {} + | sed 's/^/[DELETE]/'
+      - for: { var: CLEANUP_FILES }
+        cmd: find . -name "{{.ITEM}}" -print -delete | sed 's/^/[DELETE]/'
+
+  cleanup:win:
+    internal: true
+    dir: "{{.USER_WORKING_DIR}}"
+    platforms: [windows]
+    cmds:
+      - for: { var: CLEANUP_DIRS }
+        cmd: powershell -NoProfile -Command "Get-ChildItem -Path . -Recurse -Directory -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq '{{.ITEM}}' } | Sort-Object FullName -Descending | ForEach-Object { Write-Output ('[DELETE]' + $_.FullName); Remove-Item -LiteralPath $_.FullName -Recurse -Force }"
+      - for: { var: CLEANUP_FILES }
+        cmd: powershell -NoProfile -Command "Get-ChildItem -Path . -Recurse -File -Force -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq '{{.ITEM}}' } | ForEach-Object { Write-Output ('[DELETE]' + $_.FullName); Remove-Item -LiteralPath $_.FullName -Force }"
+
+  cleanup:refresh:
+    internal: true
+    dir: "{{.ROOT_DIR}}"
+    env:
+      TASK_X_REMOTE_TASKFILES: 1
+    cmds:
+      - task --yes --download --force --list-all > /dev/null 2>&1
 
   docker-build-version:
     aliases: [db]
     desc: "Build and export to the registry"
     cmds:
       - defer:
-          task: _time:end
+          task: time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _docker_buildx:version
+      - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:latest --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
+
+  notify:
+    internal: true
+    cmds:
+      - task: notify:mac
+        vars:
+          NOTIFY_TITLE: '{{.NOTIFY_TITLE}}'
+          NOTIFY_BODY: '{{.NOTIFY_BODY}}'
+      - task: notify:win
+        vars:
+          NOTIFY_TITLE: '{{.NOTIFY_TITLE}}'
+          NOTIFY_BODY: '{{.NOTIFY_BODY}}'
+
+  notify:mac:
+    internal: true
+    platforms: [darwin]
+    cmds:
+      - osascript -e 'display notification "{{.NOTIFY_BODY}}" with title "{{.NOTIFY_TITLE}}"'
+      - /bin/sh -c 'nohup /usr/bin/afplay /System/Library/Sounds/Glass.aiff >/dev/null 2>&1 < /dev/null &'
+
+  notify:win:
+    internal: true
+    platforms: [windows]
+    cmds:
+      - powershell -NoProfile -Command "[System.Media.SystemSounds]::Beep.Play(); $notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.BalloonTipTitle = '{{.NOTIFY_TITLE}}'; $notify.BalloonTipText = '{{.NOTIFY_BODY}}'; $notify.Visible = $true; $notify.ShowBalloonTip(5000); Start-Sleep -Seconds 5; $notify.Dispose()"
+
+  time:
+    internal: true
+    vars:
+      END_TIME: '{{now.UnixMilli}}'
+    cmds:
+      - |
+        ELAPSED_MS=$(({{.END_TIME}} - {{.START_TIME}}))
+        MINUTES=$((ELAPSED_MS / 60000))
+        SECONDS=$((ELAPSED_MS % 60000 / 1000))
+        MILLIS=$((ELAPSED_MS % 1000))
+        GREEN='\033[0;32m'
+        RESET='\033[0m'
+        if [ "$MINUTES" -gt 0 ]; then
+          printf '%b======================================== Elapsed: %s min %s sec %s msec%b\n' "$GREEN" "$MINUTES" "$SECONDS" "$MILLIS" "$RESET"
+        elif [ "$SECONDS" -gt 0 ]; then
+          printf '%b======================================== Elapsed: %s sec %s msec%b\n' "$GREEN" "$SECONDS" "$MILLIS" "$RESET"
+        else
+          printf '%b======================================== Elapsed: %s msec%b\n' "$GREEN" "$MILLIS" "$RESET"
+        fi
 
   docker-tags:
     aliases: [dt]
     desc: "List the tags registered on Docker Hub"
     cmds:
       - defer:
-          task: _time:end
+          task: _task:_time:end
           vars:
             START_TIME: '{{.START_TIME}}'
-      - task: _skopeo:tags
+      - skopeo list-tags docker://docker.io/{{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}} | jq -r '.Tags[]' | sort -V
