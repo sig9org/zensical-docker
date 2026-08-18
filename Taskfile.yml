@@ -1,6 +1,4 @@
-# yaml-language-server: $schema=https://taskfile.dev/schema.json
-
-version: "3"
+version: '3'
 
 dotenv:
   - '.env'
@@ -29,7 +27,7 @@ tasks:
 
   cleanup:
     aliases: [c]
-    desc: "Cleanup unnecessary files"
+    desc: 'Cleanup unnecessary files'
     cmds:
       - defer:
           task: time
@@ -41,7 +39,7 @@ tasks:
 
   cleanup:shell:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [darwin, linux]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -51,7 +49,7 @@ tasks:
 
   cleanup:win:
     internal: true
-    dir: "{{.USER_WORKING_DIR}}"
+    dir: '{{.USER_WORKING_DIR}}'
     platforms: [windows]
     cmds:
       - for: { var: CLEANUP_DIRS }
@@ -61,7 +59,7 @@ tasks:
 
   cleanup:refresh:
     internal: true
-    dir: "{{.ROOT_DIR}}"
+    dir: '{{.ROOT_DIR}}'
     env:
       TASK_X_REMOTE_TASKFILES: 1
     cmds:
@@ -69,13 +67,23 @@ tasks:
 
   docker-build-version:
     aliases: [db]
-    desc: "Build and export to the registry"
+    desc: 'Build and export to the registry'
     cmds:
       - defer:
-          task: time:end
+          task: time
           vars:
             START_TIME: '{{.START_TIME}}'
       - docker buildx build --platform linux/amd64,linux/arm64 --output=type=registry --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:latest --tag {{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}}:{{.DOCKER_VERSION}} versions/{{.DOCKER_VERSION}}/
+
+  docker-tags:
+    aliases: [dt]
+    desc: 'List the tags registered on Docker Hub'
+    cmds:
+      - defer:
+          task: _task:_time
+          vars:
+            START_TIME: '{{.START_TIME}}'
+      - skopeo list-tags docker://docker.io/{{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}} | jq -r '.Tags[]' | sort -V
 
   notify:
     internal: true
@@ -121,13 +129,3 @@ tasks:
         else
           printf '%b======================================== Elapsed: %s msec%b\n' "$GREEN" "$MILLIS" "$RESET"
         fi
-
-  docker-tags:
-    aliases: [dt]
-    desc: "List the tags registered on Docker Hub"
-    cmds:
-      - defer:
-          task: _task:_time:end
-          vars:
-            START_TIME: '{{.START_TIME}}'
-      - skopeo list-tags docker://docker.io/{{.DOCKER_ACCOUNT}}/{{.DOCKER_REPO}} | jq -r '.Tags[]' | sort -V
