@@ -5,11 +5,13 @@ This is [Zensical](https://zensical.org/) as a Docker container image.
 ## How to Use
 
 ```sh
-docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.55 zensical build --clean
+docker run --rm -v ${PWD}:/docs sig9/zensical:0.0.57 zensical build --clean
 ```
 
 ## DockerHub Supported tags
 
+- [0.0.57](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.57/)
+- [0.0.56](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.56/)
 - [0.0.55](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.55/)
 - [0.0.54](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.54/)
 - [0.0.53](https://hub.docker.com/repository/docker/sig9/zensical/tags/0.0.53/)
@@ -75,7 +77,7 @@ stages:
 build-job:
     stage: build
     script:
-        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.55 zensical build --clean
+        - docker run --user $(id -u):$(id -g) --rm -v ${PWD}:/docs sig9/zensical:0.0.57 zensical build --clean
         - rm -rf /var/www/html/*
         - cp -R site/* /var/www/html/
 ```
